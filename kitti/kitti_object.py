@@ -139,9 +139,13 @@ def get_lidar_in_image_fov(pc_velo, calib, xmin, ymin, xmax, ymax,
                            return_more=False, clip_distance=2.0):
     ''' Filter lidar points, keep those in image FOV '''
     pts_2d = calib.project_velo_to_image(pc_velo)
+    # Find Lidar points within the projected box in the 2D image
     fov_inds = (pts_2d[:,0]<xmax) & (pts_2d[:,0]>=xmin) & \
         (pts_2d[:,1]<ymax) & (pts_2d[:,1]>=ymin)
+    # Select index in Lidar point {(x,y,z) in pc_velo | x>clip_distance}
     fov_inds = fov_inds & (pc_velo[:,0]>clip_distance)
+
+    # Filter the lidar points, usin the index filtered in the previous two steps
     imgfov_pc_velo = pc_velo[fov_inds,:]
     if return_more:
         return imgfov_pc_velo, pts_2d, fov_inds
