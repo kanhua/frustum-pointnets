@@ -237,6 +237,11 @@ def test_from_rgb_detection(output_filename, result_dir=None):
         batch_data_to_feed[0:cur_batch_size, ...] = batch_data
         batch_one_hot_to_feed[0:cur_batch_size, :] = batch_one_hot_vec
 
+        if batch_idx == 0:
+            check_file = "/Users/kanhua/Downloads/3d-object-detection-for-autonomous-vehicles/artifacts/kitti_val_pc.pickle"
+            with open(check_file, 'wb') as fp:
+                pickle.dump({'pcl': batch_data, 'ohv': batch_one_hot_vec}, fp)
+
         # Run one batch inference
         batch_output, batch_center_pred, \
         batch_hclass_pred, batch_hres_pred, \
