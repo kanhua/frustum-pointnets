@@ -185,7 +185,10 @@ def write_detection_results(result_dir, id_list, type_list, box2d_list, center_l
     output_dir = os.path.join(result_dir, 'data')
     if not os.path.exists(output_dir): os.mkdir(output_dir)
     for idx in results:
-        pred_filename = os.path.join(output_dir, '%06d.txt' % (idx))
+        if type(idx) is int:
+            pred_filename = os.path.join(output_dir, '%06d.txt' % (idx))
+        elif type(idx) is str:
+            pred_filename = os.path.join(output_dir, '{}.txt'.format(idx))
         fout = open(pred_filename, 'w')
         for line in results[idx]:
             fout.write(line + '\n')
@@ -308,7 +311,8 @@ def test(output_filename, result_dir=None):
 
     test_idxs = np.arange(0, len(TEST_DATASET))
     batch_size = BATCH_SIZE
-    num_batches = len(TEST_DATASET) / batch_size
+    num_batches = int(len(TEST_DATASET) / batch_size)
+    assert ((len(TEST_DATASET) % int(batch_size)) == 0)
 
     sess, ops = get_session_and_ops(batch_size=batch_size, num_point=NUM_POINT)
     correct_cnt = 0

@@ -1,1 +1,6 @@
-/dataset/KITTI/
+dataset/KITTI/
+train/detection_results_v1/
+test_results/data
+test_results/data/plot
+*.pickle
+cmake-build-debug/

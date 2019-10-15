@@ -158,7 +158,7 @@ class FrustumDataset(object):
         # Compute one hot vector
         if self.one_hot:
             cls_type = self.type_list[index]
-            assert(cls_type in ['Car', 'Pedestrian', 'Cyclist'])
+            assert((cls_type in ['Car', 'Pedestrian', 'Cyclist']) or (cls_type in ['car','pedestrian','cyclist']))
             one_hot_vec = np.zeros((3))
             one_hot_vec[g_type2onehotclass[cls_type]] = 1
 
