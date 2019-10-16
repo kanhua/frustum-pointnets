@@ -772,21 +772,22 @@ void saveAndPlotPlots(string dir_name,string file_name,string obj_type,vector<do
   system(command);
 }
 
-vector<int32_t> getEvalIndices(const string& result_dir) {
+vector<string> getEvalIndices(const string &result_dir) {
 
-    DIR* dir;
-    dirent* entity;
-    dir = opendir(result_dir.c_str());
-    if (dir) {
-        while (entity = readdir(dir)) {
-            string path(entity->d_name);
-            int32_t len = path.size();
-            if (len < 10) continue;
-            int32_t index = atoi(path.substr(len - 10, 10).c_str());
-            indices.push_back(index);
-        }
+  vector<string> indices;
+  DIR *dir;
+  dirent *entity;
+  dir = opendir(result_dir.c_str());
+  if (dir) {
+    while (entity = readdir(dir)) {
+      string path(entity->d_name);
+      int32_t len = path.size();
+      if (len < 10) continue;
+      string index = path.substr(0, len-4);
+      indices.push_back(index);
     }
-    return indices;
+  }
+  return indices;
 }
 
 bool eval(string gt_dir, string result_dir, Mail* mail){
@@ -815,14 +816,14 @@ bool eval(string gt_dir, string result_dir, Mail* mail){
 
   // for all images read groundtruth and detections
   mail->msg("Loading detections...");
-  std::vector<int32_t> indices = getEvalIndices(result_dir + "/data/");
+  std::vector<string> indices = getEvalIndices(result_dir + "/data/");
   printf("number of files for evaluation: %d\n", (int)indices.size());
 
   for (int32_t i=0; i<indices.size(); i++) {
 
     // file name
     char file_name[256];
-    sprintf(file_name,"%06d.txt",indices.at(i));
+    sprintf(file_name,"%s.txt",indices[i].c_str());
 
     // read ground truth and result poses
     bool gt_success,det_success;
