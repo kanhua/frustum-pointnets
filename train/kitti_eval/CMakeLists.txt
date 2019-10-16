@@ -18,3 +18,4 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
 add_executable(evaluate_object_3d_offline evaluate_object_3d_offline.cpp)
+add_executable(test_geteval_files test_geteval_files.cpp)
