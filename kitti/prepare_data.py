@@ -210,6 +210,7 @@ def extract_frustum_data(idx_filename, split, output_filename, viz=False,
         img_height, img_width, img_channel = img.shape
         _, pc_image_coord, img_fov_inds = get_lidar_in_image_fov(pc_velo[:, 0:3],
                                                                  calib, 0, 0, img_width, img_height, True)
+        # pc_image_coord: point cloud projected to image coordinates
 
         for obj_idx in range(len(objects)):
             if objects[obj_idx].type not in type_whitelist: continue

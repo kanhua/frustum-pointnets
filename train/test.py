@@ -144,6 +144,7 @@ def inference(sess, ops, pc, one_hot_vec, batch_size):
         mask_mean_prob = mask_mean_prob / np.sum(batch_seg_mask, 1)  # B,
         heading_prob = np.max(softmax(batch_heading_scores), 1)  # B
         size_prob = np.max(softmax(batch_size_scores), 1)  # B,
+        # batch score includes the score of segmentation mask accuracy, heading, and size
         batch_scores = np.log(mask_mean_prob) + np.log(heading_prob) + np.log(size_prob)
         scores[i * batch_size:(i + 1) * batch_size] = batch_scores
         # Finished computing scores
